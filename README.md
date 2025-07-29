@@ -95,8 +95,7 @@ CV/
 │   ├── presentations.tex
 │   ├── publications.tex
 │   ├── skills.tex
-│   └── interests.tex
-└── README_TEMPLATE.md     # This file
+└── README.md     # This file
 ```
 
 ## Notes
