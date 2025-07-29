@@ -10,7 +10,43 @@ Edit the header section in `cv.tex`:
 - Update the address, email, website, and phone information
 - Uncomment and modify the job title if desired
 
-### 2. Sections
+### 2. Style Selection
+This template offers three different styles that you can choose from by modifying the `\usepackage` line in `cv.tex`:
+
+#### Traditional CV Style (Default)
+```latex
+\usepackage[cv]{cv}
+```
+- Clean, academic CV format
+- Uses LModern font
+- Black and white color scheme
+- Small caps for name styling
+
+#### Alternative CV Style
+```latex
+\usepackage[altcv]{cv}
+```
+- Alternative formatting with different typography
+- Uses MathPazo font
+- Different section styling with indentation
+- More modern appearance
+
+#### Resume Style
+```latex
+\usepackage[resume]{cv}
+```
+- Compact resume format
+- Uses Source Sans Pro font
+- Blue accent color scheme
+- Tighter margins and spacing
+- Includes a decorative line separator
+
+**Note**: The `examples/` folder contains sample PDFs showing each style:
+- `cv-example.pdf` - Traditional CV style
+- `alt-cv-example.pdf` - Alternative CV style  
+- `resume-example.pdf` - Resume style
+
+### 3. Sections
 The CV is organized into sections, each in its own file in the `sections/` directory:
 
 #### Education (`sections/education.tex`)
@@ -61,13 +97,13 @@ The CV is organized into sections, each in its own file in the `sections/` direc
 - Organize skills into logical categories
 - Add or remove categories as needed
 
-### 3. Compiling
+### 4. Compiling
 To compile the CV:
 ```bash
 pdflatex cv.tex
 ```
 
-### 4. Customization Tips
+### 5. Customization Tips
 - Keep bullet points concise and impactful
 - Use consistent formatting throughout
 - Quantify achievements where possible
@@ -95,6 +131,10 @@ CV/
 │   ├── presentations.tex
 │   ├── publications.tex
 │   ├── skills.tex
+├── examples/               # Style examples
+│   ├── cv-example.pdf      # Traditional CV style
+│   ├── alt-cv-example.pdf  # Alternative CV style
+│   └── resume-example.pdf  # Resume style
 └── README.md               # This file
 ```
 
