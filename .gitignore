@@ -1,0 +1,43 @@
+## LaTeX temporary files
+*.aux
+*.log
+*.toc
+*.lof
+*.lot
+*.fls
+*.out
+*.synctex.gz
+*.fdb_latexmk
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+
+## PDF output (uncomment if you don't want to track the compiled PDF)
+*.pdf
+
+## BibTeX
+*.bib.bak
+*.sav
+
+## Editor temporary files
+*~
+*.swp
+.DS_Store
+.vscode/
+.idea/
+
+## Core latex/pdflatex auxiliary files
+_minted*/
+*.pyg
+
+## Latexmk
+.latexmk
+
+## Package specific
+*.nav
+*.snm
+*.vrb
+
+## Draft watermark
+*.watermark

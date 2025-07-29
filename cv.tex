@@ -1,0 +1,57 @@
+\documentclass[letterpaper]{article}
+
+% \usepackage[cv]{cv}
+\usepackage[altcv]{cv}
+% \usepackage[resume]{cv}
+
+\name{Your Name Here}
+% \jobtitle{Your Job Title}
+\addressone{Your Department}
+\addresstwo{Your Institution}
+\addressthree{City, State ZIP}
+\email{email@institution.edu}
+\website{yourwebsite.com}
+% \phone{+1-XXX-XXX-XXXX}
+\phone{+1-555-555-5555}
+
+\begin{document}
+
+\cvtitle
+
+\cvsection{Education}{
+    \input{sections/education}
+}
+
+\cvsection{Research Experience}{
+    \input{sections/research}
+}
+
+\cvsection{Honors \& Awards}{
+    \input{sections/awards}
+}
+
+\cvsection{Workshops}{
+    \input{sections/workshops}
+}
+
+\cvsection{Teaching Experience}{
+    \input{sections/teaching}
+}
+
+% \cvsection{Skills}{
+%   \input{sections/skills}
+% }
+
+\cvsection{Service \& Outreach}{
+    \input{sections/service}
+}
+
+\cvsection{Conferences \& Talks}{
+    \input{sections/presentations}
+}
+
+\cvsection{Publications}{
+    \input{sections/publications}
+}
+
+\end{document}

@@ -1,0 +1,52 @@
+name: Deploy CV to Website
+
+# This workflow is disabled by default and requires configuration
+# To enable: 
+# 1. Set up a deploy key for your website repository
+# 2. Add WEBSITE_DEPLOY_KEY secret to this repository
+# 3. Update the website repository URL below
+# 4. Change 'if: false' to 'if: true' in the job below
+
+on:
+  # This workflow will not run until manually enabled
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # This job will not run until the workflow is properly configured
+    if: false
+
+    steps:
+    - name: Checkout CV repo
+      uses: actions/checkout@v3
+
+    - name: Install LaTeX
+      run: sudo apt-get install -y --no-install-recommends texlive-latex-base texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra lmodern
+      
+    - name: Build CV
+      run: pdflatex -interaction=nonstopmode -halt-on-error cv.tex
+
+    - name: Set up SSH for deploy key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.WEBSITE_DEPLOY_KEY }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+    - name: Clone website repo
+      run: |
+        # Update this URL to your website repository
+        git clone git@github.com:YOUR_USERNAME/YOUR_WEBSITE_REPO.git
+        rm -f *.log *.aux *.out
+        # Update this path to match your website's file structure
+        cp cv.pdf YOUR_WEBSITE_REPO/path/to/cv.pdf
+
+    - name: Commit and push
+      run: |
+        cd YOUR_WEBSITE_REPO
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git add path/to/cv.pdf
+        git commit -m "Update CV" || echo "No changes"
+        git push

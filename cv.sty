@@ -1,0 +1,157 @@
+% cv.sty
+\ProvidesPackage{cv}[2024/09/08 Clarke's custom CV style]
+
+% STYLE SELECTION
+\newif\ifcv
+\newif\ifaltcv
+\newif\ifresume
+
+\DeclareOption{cv}{\cvtrue}
+\DeclareOption{no-cv}{\cvfalse}
+\DeclareOption{altcv}{\altcvtrue}
+\DeclareOption{no-altcv}{\altcvfalse}
+\DeclareOption{resume}{\resumetrue}
+\DeclareOption{no-resume}{\resumefalse}
+\ExecuteOptions{no-cv}
+\ExecuteOptions{no-altcv}
+\ExecuteOptions{no-resume}
+\ProcessOptions\relax
+
+% IMPORT PACKAGES
+\RequirePackage{tabularx}
+\RequirePackage{enumitem}
+\RequirePackage{fontawesome5}
+\RequirePackage{hyperref}
+\RequirePackage{changepage}
+\RequirePackage{hyperref}
+\RequirePackage{multirow}
+\ifresume
+  \RequirePackage[margin=0.5in, top=0.75in, bottom=0.5in]{geometry}
+\else
+  \RequirePackage[margin=0.75in, top=1in, bottom=0.75in]{geometry}
+\fi
+\RequirePackage{xcolor}
+\RequirePackage{fancyhdr}
+\RequirePackage{microtype}
+\RequirePackage{phonenumbers}
+
+% HEADER SETUP
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[R]{\thepage}
+\fancyhead[L]{\@name}
+\AtBeginDocument{\thispagestyle{empty}}
+\setlength{\headheight}{14.5pt}
+
+% INFO SETUP
+\newcommand{\name}[1]{\def\@name{#1}}
+\newcommand{\jobtitle}[1]{\def\@jobtitle{#1}}
+\newcommand{\addressone}[1]{\def\@addressone{#1}}
+\newcommand{\addresstwo}[1]{\def\@addresstwo{#1}}
+\newcommand{\addressthree}[1]{\def\@addressthree{#1}}
+\newcommand{\website}[1]{\def\@website{#1}}
+\newcommand{\email}[1]{\def\@email{#1}}
+\newcommand{\phone}[1]{\def\@phone{#1}}
+\name{}
+\addressone{}
+\addresstwo{}
+\addressthree{}
+\website{}
+\email{}
+\phone{}
+\jobtitle{}
+
+% FONT STYLE
+\ifresume
+  \RequirePackage[default,semibold]{sourcesanspro} % for resume
+\else
+  \ifaltcv
+    \RequirePackage{mathpazo} % for alt CV
+  \else
+    \RequirePackage{lmodern} % for traditional CV
+  \fi
+\fi
+\renewcommand{\normalsize}{\fontsize{11pt}{13pt}\selectfont}
+
+% COLOR SCHEME
+\ifresume
+  \definecolor{highlight}{RGB}{61, 90, 128} % for resume
+\else
+  \definecolor{highlight}{rgb}{0,0,0} % for traditional CV and alt CV
+\fi
+
+% TITLE FORMATTING
+% this fixes the difference in vertical spacing after the title between texlive 2024 and 2025
+\def\gettexliveversion#1(#2 #3 #4#5#6#7#8)#9\relax{#4#5#6#7}
+\edef\texliveversion{\expandafter\gettexliveversion\pdftexbanner\relax}
+
+\ifresume
+  \newcommand{\cvtitleseparator}{\vspace{-1.5em}\noindent{\color{highlight}\rule{\textwidth}{1pt}}\vspace{1em}}
+\else
+  \ifnum\texliveversion<2025
+    \newcommand{\cvtitleseparator}{\vspace{-1.5em}}
+  \else
+    \newcommand{\cvtitleseparator}{\vspace{-0.25em}}
+\fi
+
+\newcommand{\cvtitle}{
+  \noindent
+  \ifcv
+    \def\namestyle{\Huge \scshape \@name}
+  \else
+    \def\namestyle{\Huge \@name}
+  \fi
+  \begin{tabularx}{\linewidth}{@{} X @{} c @{} X @{}}
+      \raggedright
+      \@addressone \\
+      \@addresstwo \\
+      \@addressthree
+
+      & \multirow{3}{*}{
+          \begin{tabular}{c}
+            \namestyle
+            \ifx\@jobtitle\empty
+            \else
+              \\[0.75ex]
+              {\Large \@jobtitle}
+            \fi
+          \end{tabular}
+        }
+
+      & \raggedleft
+      \href{mailto:\@email}{\color{highlight}\raisebox{-0.05\height}\faEnvelope \ \@email} \\
+      \href{https://\@website}{\color{highlight}\raisebox{-0.05\height}\faGlobe \ \@website} \\
+      \href{tel:\@phone}{\color{highlight}\raisebox{-0.05\height}\faMobile \ \phonenumber[country=US,area-code-sep=brackets]{\@phone}}
+  \end{tabularx}
+  \cvtitleseparator
+}
+
+% SECTION FORMATTING 
+\RequirePackage[nostruts]{titlesec}
+\titlespacing*{\section}{0em}{1.0em}{0.5em}
+\ifaltcv
+  \titleformat{\section}{\color{highlight} \raggedright \LARGE}{}{0em}{}[]
+  \def\indent{1em}
+\else
+  \titleformat{\section}{\scshape \color{highlight} \raggedright \Large}{}{0em}{}[\vspace{-0.75em}\hrulefill]
+  \def\indent{0em}
+\fi
+\newcommand{\cvsection}[2]{
+  \section{#1}
+  \begin{adjustwidth}{\indent}{} #2\end{adjustwidth}
+}
+
+% SUBSECTION FORMATTING
+\titlespacing*{\subsection}{0em}{0.5em}{0.5em}
+\titleformat{\subsection}{\bfseries \normalsize}{}{0em}{}[\vspace{-0.5em}]
+\newcommand{\cvsubsection}[2]{
+    \subsection{#1}
+    \begin{adjustwidth}{\indent}{} #2\end{adjustwidth}
+}
+
+% ITEMIZE FORMATTING
+\setlist[itemize]{align=parleft,left=0.5em..1.5em,label=$\circ$,nolistsep}
+
+% ARXIV LINK FORMATTING
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{arXiv:#1}}
